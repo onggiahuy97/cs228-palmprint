@@ -1,25 +1,50 @@
-# README.md
+# Contactless Palmprint Verification (PolyU–IITD)
 
-# Robust Contactless Palmprint Verification (PolyU–IITD) + Robustness Benchmark
+Deep metric learning model for contactless palmprint verification using ResNet18 + ArcFace angular margin loss, trained on the PolyU–IITD Contactless Palmprint Database v3.0 (611 subjects, 12,220 images).
 
-This project trains a **contactless palmprint verification** model and produces a **robustness report** showing how verification performance changes under real-world capture variations (rotation, scale, lighting, blur, compression, occlusion). It also includes **one improvement** (robust augmentation training or quality gating) and compares results.
-
-## What you get
-- A reproducible **subject-disjoint** verification pipeline
-- Baseline verifier (embedding model + cosine similarity)
-- Robustness suite with severity levels + plots
-- Optional improvement and clean vs corrupted comparison
+**Status:** Training complete (val EER 1.13%). Full test-set evaluation and robustness benchmarking coming in Checkpoint 2.
 
 ---
 
-## 1) Requirements
-- Python 3.10+ (3.11 recommended)
-- macOS/Linux/Windows
-- GPU recommended but not required for small runs
+## Setup
 
-Install:
 ```bash
 python -m venv .venv
-source .venv/bin/activate   # (Windows: .venv\Scripts\activate)
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+```
 
+## Training
+
+```bash
+python -m src.train
+```
+
+The training script uses early stopping and saves the best checkpoint based on validation EER.
+
+## Repository Structure
+
+```
+src/
+  config.py          - Hyperparameters and paths
+  dataset.py         - Dataset class with augmentation pipeline
+  model.py           - ResNet18 backbone + projection head + ArcFace head
+  train.py           - Training loop with early stopping
+  create_splits.py   - Subject-disjoint split generation
+  corruptions.py     - Image corruption functions (for robustness preview)
+splits/              - Subject-disjoint split definitions (JSON)
+figures/             - Generated plots and visualizations
+checkpoints/         - Saved model weights
+requirements.txt     - Python dependencies
+report/              - Project report (LaTeX + PDF)
+```
+
+## Dataset
+
+PolyU–IITD Contactless Palmprint Database v3.0 with strict subject-disjoint splits:
+
+| Split      | Subjects | Images | Classes |
+|------------|----------|--------|---------|
+| Train      | 427 (70%)| 8,540  | 854     |
+| Validation | 61 (10%) | 1,220  | 122     |
+| Test       | 123 (20%)| 2,460  | 246     |
