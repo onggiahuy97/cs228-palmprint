@@ -1,0 +1,12 @@
+{
+  "eer": 0.06499999999999997,
+  "eer_threshold": 0.8351306915283203,
+  "far_at_1pct_frr": 0.2874,
+  "far_at_01pct_frr": 0.4752,
+  "genuine_mean": 0.9136180071115494,
+  "genuine_std": 0.04660329803444635,
+  "impostor_mean": 0.6771076411664486,
+  "impostor_std": 0.11814891124779271,
+  "num_genuine_pairs": 5000,
+  "num_impostor_pairs": 5000
+}
